@@ -56,5 +56,18 @@ public class SocialMediaController
         return ResponseEntity.status(409).body(null);
     }
 
-    //@PostMapping("/login")
+    @PostMapping("/login")
+    public ResponseEntity<?> loginAccount(@RequestBody Account account)
+    {
+        System.out.println("RUNNING LOGIN FROM CONTROLLER");
+        Account login = accountService.loginAccount(account);
+        System.out.println("END OF LOGIN FROM SERVICE");
+
+        if(login != null)
+        {
+            return ResponseEntity.status(200).body(login.toString());
+        }
+
+        return ResponseEntity.status(400).body(null);
+    }
 }

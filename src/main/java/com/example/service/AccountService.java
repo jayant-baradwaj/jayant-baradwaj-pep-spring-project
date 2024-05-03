@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -30,5 +31,26 @@ public class AccountService
         System.out.println(exists.size() + " Size of the list of accounts");
         
         return (Account) accountRepository.save(account);
+    }
+
+    public Account loginAccount(Account account)
+    {
+        System.out.println(account.toString());
+
+        Optional<Account> opAcc = accountRepository.findById(account.getAccountId());
+        if(opAcc.isPresent())
+        {
+            Account acc = opAcc.get();
+            if(acc.getUsername() != account.getUsername())
+            {
+                return null;
+            }
+            if(acc.getPassword() != account.getPassword())
+            {
+                return null;
+            }
+            return acc;
+        }
+        return null;
     }
 }
