@@ -1,9 +1,14 @@
 package com.example.repository;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface MessageRepository
-{
+import com.example.entity.*;
 
+@Repository
+public interface MessageRepository extends JpaRepository<Message, Integer>
+{
+    List<Message> findByPostedBy(int postedBy);
 }
