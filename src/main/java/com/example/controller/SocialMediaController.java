@@ -1,16 +1,7 @@
 package com.example.controller;
 
-//import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.ExceptionHandler;
-//import org.springframework.http.RequestEntity.BodyBuilder;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
 
 import com.example.service.AccountService;
 import com.example.service.MessageService;
@@ -26,7 +17,6 @@ import com.example.entity.*;
  */
 
 @RestController
-//@RequestMapping()
 public class SocialMediaController
 {
     private AccountService accountService;
@@ -46,13 +36,9 @@ public class SocialMediaController
             return ResponseEntity.status(400).body(null);
         }
         
-        //System.out.println("RUNNING ACCOUNT SERVICE");
         Account registered = accountService.registerAccount(account);
-        //System.out.println("END OF ACCOUNT SERVICE RUN");
-
         if(registered != null)
         {
-            //System.out.println(registered.toString());
             return ResponseEntity.status(200).body(registered.toString());
         }
 
@@ -63,10 +49,7 @@ public class SocialMediaController
     public ResponseEntity<?> loginAccount(@RequestBody Account account) throws JsonProcessingException
     {
         ObjectMapper om = new ObjectMapper();
-        //System.out.println("RUNNING LOGIN FROM CONTROLLER");
         Account login = accountService.loginAccount(account);
-        //System.out.println("END OF LOGIN FROM SERVICE");
-
         if(login != null)
         {
             return ResponseEntity.status(200).body(om.writeValueAsString(login));
@@ -84,9 +67,7 @@ public class SocialMediaController
         }
 
         ObjectMapper om = new ObjectMapper();
-        //System.out.println("RUNNING MESSAGE CREATE FROM CONTROLLER");
         Message created = messageService.createMessage(message);
-        //System.out.println("END OF MESSAGE CREATE FROM SERVICE");
         if(created != null)
         {
             return ResponseEntity.status(200).body(om.writeValueAsString(created));
@@ -105,7 +86,6 @@ public class SocialMediaController
     public ResponseEntity<?> getMessagebyMessageId(@PathVariable int message_id)
     {
         Message message = messageService.getMessageByMessageId(message_id);
-
         return ResponseEntity.status(200).body(message);
     }
 
@@ -117,6 +97,7 @@ public class SocialMediaController
         {
             return ResponseEntity.status(200).body(rowsAffected);
         }
+
         return ResponseEntity.status(200).body("");
     }
 
@@ -133,6 +114,7 @@ public class SocialMediaController
         {
             return ResponseEntity.status(200).body(rowsAffected);
         }
+        
         return ResponseEntity.status(400).body(null);
     }
 

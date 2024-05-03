@@ -27,16 +27,13 @@ public class MessageService
 
     public Message createMessage(Message message)
     {
-        //System.out.println("FINDING ACCOUNT EXISTENCE");
-        //System.out.println(message.toString());
-        //System.out.println(message.getPostedBy());
         Optional<Account> accExists = accountRepository.findById(message.getPostedBy());
-        //System.out.println(accExists.toString());
         if(accExists.isPresent())
         {
             return (Message) messageRepository.save(message);
             
         }
+
         return null;
     }
 
@@ -63,6 +60,7 @@ public class MessageService
         {
             return 1;
         }
+        
         return 0;
     }
 

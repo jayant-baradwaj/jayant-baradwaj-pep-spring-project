@@ -24,10 +24,7 @@ public class AccountService
 
     public Account registerAccount(Account account)
     {
-        //System.out.println(account.toString());
-
         List<Account> accExists = accountRepository.findByUsername(account.getUsername());
-        //System.out.println(accExists.size());
         if(accExists.size() > 0)
         {
             return null;
@@ -38,25 +35,18 @@ public class AccountService
 
     public Account loginAccount(Account account)
     {
-       //System.out.println(account.toString());
-
         List<Account> nameExists = accountRepository.findByUsername(account.getUsername());
-        //System.out.println(nameExists.size());
         if(nameExists.size() == 0)
         {
             return null;
         }
-        Account userMatch = nameExists.get(0);
-        //System.out.println(userMatch.toString());
-        //System.out.println("Given Password: " + account.getPassword());
 
-        //System.out.println("Found Password: " + userMatch.getPassword());
+        Account userMatch = nameExists.get(0);
         if(userMatch.getPassword().equals(account.getPassword()))
         {
             return (Account) userMatch;
         }
 
-        //System.out.println("The passwrods didn't match");
         return null;
     }
 }
