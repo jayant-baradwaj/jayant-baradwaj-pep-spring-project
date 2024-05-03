@@ -1,4 +1,9 @@
 package com.example.repository;
 
-public interface MessageRepository {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MessageRepository
+{
+
 }
