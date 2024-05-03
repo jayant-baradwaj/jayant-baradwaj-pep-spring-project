@@ -1,7 +1,6 @@
 package com.example.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -25,32 +24,39 @@ public class AccountService
 
     public Account registerAccount(Account account)
     {
-        System.out.println(account.toString());
+        //System.out.println(account.toString());
 
-        List<Account> exists = accountRepository.findByUsername(account.getUsername());
-        System.out.println(exists.size() + " Size of the list of accounts");
+        List<Account> accExists = accountRepository.findByUsername(account.getUsername());
+        //System.out.println(accExists.size());
+        if(accExists.size() > 0)
+        {
+            return null;
+        }
         
         return (Account) accountRepository.save(account);
     }
 
     public Account loginAccount(Account account)
     {
-        System.out.println(account.toString());
+       //System.out.println(account.toString());
 
-        Optional<Account> opAcc = accountRepository.findById(account.getAccountId());
-        if(opAcc.isPresent())
+        List<Account> nameExists = accountRepository.findByUsername(account.getUsername());
+        //System.out.println(nameExists.size());
+        if(nameExists.size() == 0)
         {
-            Account acc = opAcc.get();
-            if(acc.getUsername() != account.getUsername())
-            {
-                return null;
-            }
-            if(acc.getPassword() != account.getPassword())
-            {
-                return null;
-            }
-            return acc;
+            return null;
         }
+        Account userMatch = nameExists.get(0);
+        //System.out.println(userMatch.toString());
+        //System.out.println("Given Password: " + account.getPassword());
+
+        //System.out.println("Found Password: " + userMatch.getPassword());
+        if(userMatch.getPassword().equals(account.getPassword()))
+        {
+            return (Account) userMatch;
+        }
+
+        //System.out.println("The passwrods didn't match");
         return null;
     }
 }

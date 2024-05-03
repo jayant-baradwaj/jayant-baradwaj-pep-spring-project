@@ -38,18 +38,18 @@ public class SocialMediaController
     @PostMapping("/register")
     public ResponseEntity<?> registerAccount(@RequestBody Account account)
     {
-        //ObjectMapper om = new ObjectMapper();
         if(account.getUsername().equals("") || account.getPassword().length() < 4)
         {
             return ResponseEntity.status(400).body(null);
         }
         
-        System.out.println("RUNNING ACCOUNT SERVICE");
+        //System.out.println("RUNNING ACCOUNT SERVICE");
         Account registered = accountService.registerAccount(account);
-        System.out.println("END OF ACCOUNT SERVICE RUN");
+        //System.out.println("END OF ACCOUNT SERVICE RUN");
 
         if(registered != null)
         {
+            //System.out.println(registered.toString());
             return ResponseEntity.status(200).body(registered.toString());
         }
 
@@ -57,17 +57,18 @@ public class SocialMediaController
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginAccount(@RequestBody Account account)
+    public ResponseEntity<?> loginAccount(@RequestBody Account account) throws JsonProcessingException
     {
-        System.out.println("RUNNING LOGIN FROM CONTROLLER");
+        ObjectMapper om = new ObjectMapper();
+        //System.out.println("RUNNING LOGIN FROM CONTROLLER");
         Account login = accountService.loginAccount(account);
-        System.out.println("END OF LOGIN FROM SERVICE");
+        //System.out.println("END OF LOGIN FROM SERVICE");
 
         if(login != null)
         {
-            return ResponseEntity.status(200).body(login.toString());
+            return ResponseEntity.status(200).body(om.writeValueAsString(login));
         }
 
-        return ResponseEntity.status(400).body(null);
+        return ResponseEntity.status(401).body(null);
     }
 }
