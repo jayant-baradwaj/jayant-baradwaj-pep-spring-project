@@ -29,17 +29,18 @@ public class SocialMediaController
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerAccount(@RequestBody Account account)
+    public ResponseEntity<?> registerAccount(@RequestBody Account account) throws JsonProcessingException
     {
         if(account.getUsername().equals("") || account.getPassword().length() < 4)
         {
             return ResponseEntity.status(400).body(null);
         }
         
+        ObjectMapper om = new ObjectMapper();
         Account registered = accountService.registerAccount(account);
         if(registered != null)
         {
-            return ResponseEntity.status(200).body(registered.toString());
+            return ResponseEntity.status(200).body(om.writeValueAsString(registered));
         }
 
         return ResponseEntity.status(409).body(null);

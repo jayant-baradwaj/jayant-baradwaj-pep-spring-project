@@ -58,6 +58,7 @@ public class MessageService
         Optional<Message> msgExists = messageRepository.findById(message_id);
         if(msgExists.isPresent())
         {
+            messageRepository.deleteById(message_id);
             return 1;
         }
         
